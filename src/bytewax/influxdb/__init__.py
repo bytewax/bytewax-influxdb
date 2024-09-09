@@ -49,7 +49,7 @@ class _InfluxDBPartition(StatefulSourcePartition):
 
         Returns:
             List[RecordBatch]: A list of data points retrieved from InfluxDB returned
-            as Record Batches.
+            as Arrow Record Batches. That can convert into dataframes or similar.
         """
         current_time = datetime.now(timezone.utc)
         query = f"""SELECT * from "{self.measurement}"
