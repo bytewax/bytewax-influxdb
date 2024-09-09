@@ -9,7 +9,7 @@ from bytewax.influxdb import InfluxDBSink
 
 TOKEN = os.getenv(
     "INLFUXDB_TOKEN",
-    "x06p8_fojSJwNXIDq7xia1aiRjtlSdnHy_v0OrU8XmF-qRmusemIjzzhpjrwtdcem1O20vK7kFBe7G9kXrzHkw==",
+    "my-token",
 )
 DATABASE = os.getenv("INFLUXDB_DATABASE", "testing")
 ORG = os.getenv("INFLUXDB_ORG", "dev")
