@@ -10,7 +10,40 @@
 
 ## Bytewax InfluxDB Connector
 
-* TODO: Add project documentation
+A source and sink connector for Bytewax.
+
+You will need an influxdb account and the API key to use the connector.
+
+To test the connector, use `examples/input.py` and `examples/output.py`. You may need to modify the date parameters for it to work.
+
+To use the source and sink connector use them in the input and output operators like shown below.
+
+```python
+inp = op.input(
+    "inp",
+    flow,
+    InfluxDBSource(
+        timedelta(seconds=5),
+        "https://us-east-1-1.aws.cloud2.influxdata.com",
+        DATABASE,
+        TOKEN,
+        "home",
+        ORG,
+        datetime.now(timezone.utc) - timedelta(days=5),
+    ),
+)
+op.output(
+    "out",
+    inp,
+    InfluxDBSink(
+        host="https://us-east-1-1.aws.cloud2.influxdata.com",
+        database=DATABASE,
+        org=ORG,
+        token=TOKEN,
+        write_precision="s",
+    ),
+)
+```
 
 ## Setting up the project for development
 
