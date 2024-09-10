@@ -71,6 +71,7 @@ intersphinx_mapping = {
     "python": ("https://docs.python.org/3/", None),
     "sphinx": ("https://www.sphinx-doc.org/en/master/", None),
     "typing_extensions": ("https://typing-extensions.readthedocs.io/en/latest/", None),
+    "pyarrow": ("https://arrow.apache.org/docs/", None),
 }
 templates_path = ["_templates"]
 
