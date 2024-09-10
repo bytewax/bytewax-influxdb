@@ -51,7 +51,7 @@ class _InfluxDBSourcePartition(
 
         Returns:
             List[RecordBatch]: A list of data points retrieved from InfluxDB returned
-            as Record Batches.
+            as Arrow Record Batches. That can convert into dataframes or similar.
         """
         head_time = self.last_time + self.interval
         query = f"""SELECT * from "{self.measurement}"
