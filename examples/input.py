@@ -7,7 +7,7 @@ from bytewax.dataflow import Dataflow
 from bytewax.influxdb import InfluxDBSource
 
 TOKEN = os.getenv(
-    "INLFUXDB_TOKEN",
+    "INFLUXDB_TOKEN",
     "my-token",
 )
 DATABASE = os.getenv("INFLUXDB_DATABASE", "testing")
@@ -23,13 +23,13 @@ inp = op.input(
     "inp",
     flow,
     InfluxDBSource(
-        timedelta(seconds=5),
+        timedelta(minutes=30),
         "https://us-east-1-1.aws.cloud2.influxdata.com",
         DATABASE,
         TOKEN,
         "home",
         ORG,
-        datetime.now(timezone.utc) - timedelta(days=5),
+        datetime.fromtimestamp(1724258000, tz=timezone.utc),
     ),
 )
 op.inspect("input", inp)

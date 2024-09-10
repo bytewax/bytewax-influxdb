@@ -2,7 +2,7 @@
 
 import logging
 from datetime import datetime, timedelta, timezone
-from typing import Any, Iterable, List, NamedTuple, Optional, Union
+from typing import Any, Dict, List, NamedTuple, Optional, Union
 
 from influxdb_client_3 import InfluxDBClient3, Point
 from influxdb_client_3.write_client.client.write.point import DEFAULT_WRITE_PRECISION
@@ -16,7 +16,9 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-class _InfluxDBPartition(StatefulSourcePartition):
+class _InfluxDBSourcePartition(
+    StatefulSourcePartition[RecordBatch, Optional[datetime]]
+):
     def __init__(
         self,
         interval: timedelta,
@@ -51,27 +53,30 @@ class _InfluxDBPartition(StatefulSourcePartition):
             List[RecordBatch]: A list of data points retrieved from InfluxDB returned
             as Record Batches.
         """
-        current_time = datetime.now(timezone.utc)
+        head_time = self.last_time + self.interval
         query = f"""SELECT * from "{self.measurement}"
         WHERE time >= '{self.last_time.isoformat()}'
-        and time <= '{current_time.isoformat()}'"""
+        and time < '{head_time.isoformat()}'"""
         logger.info(f"query is: {query}")
         data = self.client.query(query=query)
-        self.last_time = current_time
+        self.last_time = head_time
         logger.info(f"last_time:{self.last_time}")
-        self._next_awake = current_time + self.interval
+        if head_time < self._next_awake:
+            self._next_awake = datetime.now(timezone.utc)
+        else:
+            self._next_awake = head_time + self.interval
         return data.to_batches()
 
-    def snapshot(self) -> dict:
+    def snapshot(self) -> Optional[datetime]:
         """Take a snapshot of the current state of the partition.
 
         This method captures the current state of the partition, specifically the
         last_time, which can be used to resume the source from the last read point.
 
         Returns:
-            dict: A dictionary containing the last_time.
+            datetime: the last time bounded on the query.
         """
-        return {"last_time": self.last_time}
+        return self.last_time
 
     def next_awake(self) -> datetime:
         """Get the time when the partition should next be polled.
@@ -84,7 +89,7 @@ class _InfluxDBPartition(StatefulSourcePartition):
         return self._next_awake
 
 
-class InfluxDBSource(FixedPartitionedSource):
+class InfluxDBSource(FixedPartitionedSource[RecordBatch, Optional[datetime]]):
     """A source for reading data from an InfluxDB instance in fixed partitions."""
 
     def __init__(
@@ -138,7 +143,7 @@ class InfluxDBSource(FixedPartitionedSource):
 
     def build_part(
         self, step_id: str, for_part: str, resume_state: Union[Any, None]
-    ) -> _InfluxDBPartition:
+    ) -> _InfluxDBSourcePartition:
         """Build and return a specific partition for the data source.
 
         This method creates an _InfluxDBPartition instance that handles the actual
@@ -156,12 +161,14 @@ class InfluxDBSource(FixedPartitionedSource):
             retrieval.
         """
         assert for_part == "singleton"
-        resume_state = resume_state or {}
         now = datetime.now(timezone.utc)
-        last_time = resume_state.get("last_time", self.start_time)
-        if not last_time:
+        if resume_state:
+            last_time = resume_state
+        elif self.start_time:
+            last_time = self.start_time
+        else:
             last_time = now - self.interval
-        return _InfluxDBPartition(
+        return _InfluxDBSourcePartition(
             self.interval,
             now,
             last_time,
@@ -196,17 +203,11 @@ class _InfluxDBSinkPartition(StatelessSinkPartition):
         items: List[
             Union[
                 str,
-                Iterable["str"],
                 Point,
-                Iterable["Point"],
-                dict,
-                Iterable["dict"],
+                Dict[str, Any],
                 bytes,
-                Iterable["bytes"],
                 NamedTuple,
-                Iterable["NamedTuple"],
                 Any,
-                Iterable[Any],
             ]
         ],
     ) -> None:
