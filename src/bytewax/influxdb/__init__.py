@@ -15,7 +15,7 @@ from bytewax.outputs import DynamicSink, StatelessSinkPartition
 
 if "BYTEWAX_LICENSE" not in os.environ:
     msg = (
-        "`{{cookiecutter.project_slug}}` is commercially licensed "
+        "`bytewax-influxdb` is commercially licensed "
         "with publicly available source code.\n"
         "You are welcome to prototype using this module for free, "
         "but any use on business data requires a paid license.\n"
