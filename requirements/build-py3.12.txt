@@ -42,9 +42,9 @@ colorama==0.4.6 \
     --hash=sha256:08695f5cb7ed6e0531a20572697297273c47b8cae5a63ffc6d6ed5c201be6e44 \
     --hash=sha256:4f1d9991f5acc0ca119f9d443620b77f9d6b33703e51011c16baf57afb285fc6
     # via -r requirements/build.in
-influxdb3-python==0.8.0 \
-    --hash=sha256:11dd55a5cb96fc8c595b46534f1224b93c1da58bd64f66b8a986ca43c85b0855 \
-    --hash=sha256:52b960a97df84b3b62989415a7c87bae595b5b67ec3d5882f37f86e021b35014
+influxdb3-python==0.9.0 \
+    --hash=sha256:10dc9c80eccc49b3dc3f2048ada7e26b23539f27efd5c98c0e69b784ffeb7b5e \
+    --hash=sha256:f64f36ada948c9953bd99f5ce42c1de3db2a4db6f84837899f34a8c05f17a44f
     # via -r requirements/lib-py3.12.txt
 iniconfig==2.0.0 \
     --hash=sha256:2d91e135bf72d31a410b17c16da610a82cb55f6b0477d1a902134b24a455b8b3 \
