@@ -46,9 +46,9 @@ exceptiongroup==1.2.2 \
     --hash=sha256:3111b9d131c238bec2f8f516e123e14ba243563fb135d3fe885990585aa7795b \
     --hash=sha256:47c2edf7c6738fafb49fd34290706d1a1a2f4d1c6df275526b62cbb4aa5393cc
     # via pytest
-influxdb3-python==0.8.0 \
-    --hash=sha256:11dd55a5cb96fc8c595b46534f1224b93c1da58bd64f66b8a986ca43c85b0855 \
-    --hash=sha256:52b960a97df84b3b62989415a7c87bae595b5b67ec3d5882f37f86e021b35014
+influxdb3-python==0.9.0 \
+    --hash=sha256:10dc9c80eccc49b3dc3f2048ada7e26b23539f27efd5c98c0e69b784ffeb7b5e \
+    --hash=sha256:f64f36ada948c9953bd99f5ce42c1de3db2a4db6f84837899f34a8c05f17a44f
     # via -r requirements/lib-py3.8.txt
 iniconfig==2.0.0 \
     --hash=sha256:2d91e135bf72d31a410b17c16da610a82cb55f6b0477d1a902134b24a455b8b3 \
