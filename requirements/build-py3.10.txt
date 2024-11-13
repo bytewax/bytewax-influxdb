@@ -181,9 +181,9 @@ reactivex==4.0.4 \
     # via
     #   -r requirements/lib-py3.10.txt
     #   influxdb3-python
-setuptools==74.1.2 \
-    --hash=sha256:5f4c08aa4d3ebcb57a50c33b1b07e94315d7fc7230f7115e47fc99776c8ce308 \
-    --hash=sha256:95b40ed940a1c67eb70fc099094bd6e99c6ee7c23aa2306f4d2697ba7916f9c6
+setuptools==75.5.0 \
+    --hash=sha256:5c4ccb41111392671f02bb5f8436dfc5a9a7185e80500531b133f5775c4163ef \
+    --hash=sha256:87cb777c3b96d638ca02031192d40390e0ad97737e27b6b4fa831bea86f2f829
     # via
     #   -r requirements/lib-py3.10.txt
     #   influxdb3-python
